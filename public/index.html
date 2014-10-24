@@ -9,7 +9,8 @@
 
 </head>
 <body>
-<button onclick="nyPrick()">Ny prick</button>
+<input type="text" id="new-dot"/>
+<button onclick="nyPrick($('#new-dot').val());$('#new-dot').val('');">Ny prick</button>
 <script>
 
     var width = 800,
@@ -62,7 +63,7 @@
                 .attr("y", d.y = Math.max(radius, Math.min(height - radius, d3.event.y)));
     }
 
-    function nyPrick(){
+    function nyPrick(text){
 
         var g = svg.append("g").call(drag);
 
@@ -76,7 +77,7 @@
         g.append("text")
             .attr("x", function(d) { return width / 2; })
             .attr("y", function(d) { return height / 2; })
-            .text("Kardashian");
+            .text(text);
 
     }
 
