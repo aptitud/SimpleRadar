@@ -4,12 +4,40 @@
     <meta charset="UTF-8">
     <title></title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-    <script src="js/protovis.min.js"></script>
+    <script src="bower_components/d3/d3.js"></script>
     <script src="js/ui.js"></script>
-    <script></script>
+
 </head>
-<body onload="init(1000,1200,75);">
-<h1 id="title" style="text-align: center;"></h1>
-<div id="radar"></div>
+<body>
+<script>
+
+    var width = 1200,
+            height = 1000,
+            radius = 20;
+
+    var drag = d3.behavior.drag()
+            .origin(function(d) { return d; })
+            .on("drag", dragmove);
+
+    var svg = d3.select("body").append("div").selectAll("svg")
+            .data(d3.range(1).map(function() { return {x: width / 2, y: height / 2}; }))
+            .enter().append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+    svg.append("circle")
+            .attr("r", radius)
+            .attr("cx", function(d) { return d.x; })
+            .attr("cy", function(d) { return d.y; })
+            .call(drag);
+
+    function dragmove(d) {
+        d3.select(this)
+                .attr("cx", d.x = Math.max(radius, Math.min(width - radius, d3.event.x)))
+                .attr("cy", d.y = Math.max(radius, Math.min(height - radius, d3.event.y)));
+    }
+
+    console.log("Hepp");
+</script>
 </body>
 </html>

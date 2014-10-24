@@ -2,7 +2,7 @@
     "name": "simpleRadar",
     "version": "0.0.0",
     "dependencies": {
-        "protovis": "latest",
+        "d3": "latest",
         "jquery": "latest",
         "json2": "latest",
         "jquery-ui": "latest"
