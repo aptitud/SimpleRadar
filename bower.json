@@ -1,0 +1,10 @@
+{
+    "name": "simpleRadar",
+    "version": "0.0.0",
+    "dependencies": {
+        "protovis": "latest",
+        "jquery": "latest",
+        "json2": "latest",
+        "jquery-ui": "latest"
+    }
+}
