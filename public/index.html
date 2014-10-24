@@ -37,6 +37,21 @@
         }
     }
 
+    function buildCrossHair(){
+        svg.append("line")
+                .attr("x1",  width / 2 )
+                .attr("x2",  width / 2)
+                .attr("y1", height)
+                .attr("y2", 0)
+                .attr("stroke","#ccc");
+        svg.append("line")
+                .attr("x1",  0 )
+                .attr("x2",  width)
+                .attr("y1", height / 2)
+                .attr("y2", height / 2)
+                .attr("stroke","#ccc");
+    }
+
     function dragmove(d) {
         d3.select(this)
                 .attr("cx", d.x = Math.max(radius, Math.min(width - radius, d3.event.x)))
@@ -52,6 +67,7 @@
     }
 
     buildRadar();
+    buildCrossHair();
 </script>
 </body>
 </html>
