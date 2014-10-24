@@ -12,8 +12,8 @@
 <button onclick="nyPrick()">Ny prick</button>
 <script>
 
-    var width = 600,
-            height = 500,
+    var width = 800,
+            height = 800,
             radius = 20;
 
     var drag =  d3.behavior.drag()
@@ -26,12 +26,16 @@
             .attr("width", width)
             .attr("height", height);
 
-    svg.append("circle")
-            .attr("r", 100)
-            .attr("cx", function(d) { return width / 2; })
-            .attr("cy", function(d) { return height / 2; })
-            .attr("fill","transparent")
-            .attr("stroke","#ccc");
+    function buildRadar(){
+        for(var i = 100; i < 500; i += 100){
+            svg.append("circle")
+                    .attr("r", i)
+                    .attr("cx", function(d) { return width / 2; })
+                    .attr("cy", function(d) { return height / 2; })
+                    .attr("fill","transparent")
+                    .attr("stroke","#ccc");
+        }
+    }
 
     function dragmove(d) {
         d3.select(this)
@@ -45,9 +49,9 @@
                 .attr("cx", function(d) { return width / 2; })
                 .attr("cy", function(d) { return height / 2; })
                 .call(drag);
-
     }
 
+    buildRadar();
 </script>
 </body>
 </html>
