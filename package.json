@@ -1,0 +1,13 @@
+{
+    "name"         : "simple-radar",
+    "version"      : "0.0.0",
+    "description"  : "simpel radarmeet-me",
+    "main"         : "server.js",
+    "author"       : "Aptitud",
+    "dependencies" : {
+        "express"    : "*",
+        "body-parser": "*",
+        "bower": "*"
+    }
+
+}
