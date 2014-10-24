@@ -1,4 +1,4 @@
-function init(h,w) {
+function init(h,w,padding) {
     $('#title').text(document.title);
 
     var radar = new pv.Panel()
@@ -9,10 +9,12 @@ function init(h,w) {
     var radar_arcs = [{r:100,name:"adopt",bgcolor:"#fafafa"}
         ,{r:200,name:"trial",bgcolor:"#ccc"}
         ,{r:300,name:"assess",bgcolor:"#aaa"}
-        ,{r:400,name:"hold",bgcolor:"#999"}];
+        ,{r:400,name:"hold",bgcolor:"#999"}].reverse();
+
+
 // arcs
     radar.add(pv.Dot)
-        .data(radar_arcs.reverse())
+        .data(radar_arcs)
         .left(w/2)
         .bottom(h/2)
         .radius(function(d){return d.r;})
@@ -21,24 +23,24 @@ function init(h,w) {
         .anchor("top")
         .add(pv.Label).text(function(d) { return d.name;});
 
-/*//quadrant lines -- vertical
+//quadrant lines -- vertical
     radar.add(pv.Line)
-        .data([(h/2-radar_arcs[radar_arcs.length-1].r),h-(h/2-radar_arcs[radar_arcs.length-1].r)])
+        .data([(h/2-radar_arcs[0].r) - padding,h-(h/2-radar_arcs[0].r) + padding])
         .lineWidth(1)
         .left(w/2)
         .bottom(function(d) {return d;})
-        .strokeStyle("#bbb");
+        .strokeStyle("#000");
 
-//quadrant lines -- horizontal 
+    //quadrant lines -- horizontal
     radar.add(pv.Line)
-        .data([(w/2-radar_arcs[radar_arcs.length-1].r),w-(w/2-radar_arcs[radar_arcs.length-1].r)])
+        .data([(w/2-radar_arcs[0].r) - padding,w-(w/2-radar_arcs[0].r) + padding])
         .lineWidth(1)
         .bottom(h/2)
         .left(function(d) {return d;})
-        .strokeStyle("#bbb");
+        .strokeStyle("#000");
 
 
-// blips
+    /*// blips
     var total_index=1;
     for (var i = 0; i < radar_data.length; i++) {
         radar.add(pv.Dot)
