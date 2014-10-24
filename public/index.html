@@ -9,15 +9,16 @@
 
 </head>
 <body>
+<button onclick="nyPrick()">Ny prick</button>
 <script>
 
-    var width = 1200,
-            height = 1000,
+    var width = 600,
+            height = 500,
             radius = 20;
 
-    var drag = d3.behavior.drag()
-            .origin(function(d) { return d; })
+    var drag =  d3.behavior.drag()
             .on("drag", dragmove);
+
 
     var svg = d3.select("body").append("div").selectAll("svg")
             .data(d3.range(1).map(function() { return {x: width / 2, y: height / 2}; }))
@@ -25,11 +26,7 @@
             .attr("width", width)
             .attr("height", height);
 
-    svg.append("circle")
-            .attr("r", radius)
-            .attr("cx", function(d) { return d.x; })
-            .attr("cy", function(d) { return d.y; })
-            .call(drag);
+
 
     function dragmove(d) {
         d3.select(this)
@@ -37,7 +34,15 @@
                 .attr("cy", d.y = Math.max(radius, Math.min(height - radius, d3.event.y)));
     }
 
-    console.log("Hepp");
+    function nyPrick(){
+        svg.append("circle")
+                .attr("r", radius)
+                .attr("cx", function(d) { return width / 2; })
+                .attr("cy", function(d) { return height / 2; })
+                .call(drag);
+
+    }
+
 </script>
 </body>
 </html>
