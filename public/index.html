@@ -14,7 +14,7 @@
 
     var width = 800,
             height = 800,
-            radius = 20;
+            radius = 10;
 
     var drag =  d3.behavior.drag()
             .on("drag", dragmove);
@@ -53,17 +53,31 @@
     }
 
     function dragmove(d) {
-        d3.select(this)
+
+        d3.select(this).selectAll("circle")
                 .attr("cx", d.x = Math.max(radius, Math.min(width - radius, d3.event.x)))
                 .attr("cy", d.y = Math.max(radius, Math.min(height - radius, d3.event.y)));
+        d3.select(this).selectAll("text")
+                .attr("x", d.x = Math.max(radius, Math.min(width - radius, d3.event.x)))
+                .attr("y", d.y = Math.max(radius, Math.min(height - radius, d3.event.y)));
     }
 
     function nyPrick(){
-        svg.append("circle")
+
+        var g = svg.append("g").call(drag);
+
+        g.append("circle")
                 .attr("r", radius)
                 .attr("cx", function(d) { return width / 2; })
                 .attr("cy", function(d) { return height / 2; })
-                .call(drag);
+                .attr("fill","#ccc")
+                .attr("stroke","#ccc");
+
+        g.append("text")
+            .attr("x", function(d) { return width / 2; })
+            .attr("y", function(d) { return height / 2; })
+            .text("Kardashian");
+
     }
 
     buildRadar();
