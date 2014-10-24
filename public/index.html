@@ -26,7 +26,12 @@
             .attr("width", width)
             .attr("height", height);
 
-
+    svg.append("circle")
+            .attr("r", 100)
+            .attr("cx", function(d) { return width / 2; })
+            .attr("cy", function(d) { return height / 2; })
+            .attr("fill","transparent")
+            .attr("stroke","#ccc");
 
     function dragmove(d) {
         d3.select(this)
