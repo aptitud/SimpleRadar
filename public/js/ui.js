@@ -6,14 +6,18 @@ function init(h,w) {
         .height(h)
         .canvas('radar')
 
-    var radar_arcs = [{r:100,name:"adopt"}];
+    var radar_arcs = [{r:100,name:"adopt",bgcolor:"#fafafa"}
+        ,{r:200,name:"trial",bgcolor:"#ccc"}
+        ,{r:300,name:"assess",bgcolor:"#aaa"}
+        ,{r:400,name:"hold",bgcolor:"#999"}];
 // arcs
     radar.add(pv.Dot)
-        .data(radar_arcs)
+        .data(radar_arcs.reverse())
         .left(w/2)
         .bottom(h/2)
         .radius(function(d){return d.r;})
         .strokeStyle("#ccc")
+        .fillStyle(function(d){return d.bgcolor;})
         .anchor("top")
         .add(pv.Label).text(function(d) { return d.name;});
 
