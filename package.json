@@ -1,13 +1,16 @@
 {
-    "name"         : "simple-radar",
-    "version"      : "0.0.0",
-    "description"  : "simpel radarmeet-me",
-    "main"         : "server.js",
-    "author"       : "Aptitud",
-    "dependencies" : {
-        "express"    : "*",
+    "name": "SimpleRadar",
+    "version": "0.0.0",
+    "description": "simpel technology radar",
+    "main": "server.js",
+    "author": "Aptitud",
+    "dependencies": {
+        "express": "*",
         "body-parser": "*",
-        "bower": "*"
+        "bower": "*",
+        "socket.io": "*"
+    },
+    "scripts": {
+        "start": "nodemon server.js prod"
     }
-
 }

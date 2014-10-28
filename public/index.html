@@ -3,16 +3,16 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/d3/d3.js"></script>
-    <script src="js/ui.js"></script>
-
 </head>
 <body>
 <input type="text" id="new-dot"/>
 <button onclick="nyPrick($('#new-dot').val());$('#new-dot').val('');">Ny prick</button>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/d3/d3.js"></script>
+<script src="js/ui.js"></script>
+<script src="socket.io/socket.io.js"></script>
 <script>
-
+    var socket = io();
     var width = 800,
             height = 800,
             radius = 10;
