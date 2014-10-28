@@ -14,6 +14,11 @@ io.on('connection', function (socket) {
   socket.on('disconnect', function () {
     console.log('user disconnected');
   });
+
+  socket.on('new blip', function (blip) {
+    console.log('new blip', blip);
+    socket.broadcast.emit('new blip', blip);
+  });
 });
 
 http.listen(app.get('port'), function () {
