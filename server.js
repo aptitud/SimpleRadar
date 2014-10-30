@@ -19,6 +19,9 @@ io.on('connection', function (socket) {
     console.log('new blip', blip);
     socket.broadcast.emit('new blip', blip);
   });
+  socket.on('move blip', function (blip) {
+    socket.broadcast.emit('move blip', blip);
+  });
 });
 
 http.listen(app.get('port'), function () {

@@ -54,17 +54,28 @@
     }
 
     function dragmove(d) {
+        var g = d3.select(this),
+            blip = {
+                id: g.attr("id"),
+                x: Math.max(radius, Math.min(width - radius, d3.event.x)),
+                y: Math.max(radius, Math.min(height - radius, d3.event.y)),
+            };
+        socket.emit('move blip', blip);
+        moveBlip(this);
+    }
 
-        d3.select(this).selectAll("circle")
+    function moveBlip(d){
+        d3.select(d).selectAll("circle")
                 .attr("cx", d.x = Math.max(radius, Math.min(width - radius, d3.event.x)))
                 .attr("cy", d.y = Math.max(radius, Math.min(height - radius, d3.event.y)));
-        d3.select(this).selectAll("text")
+        d3.select(d).selectAll("text")
                 .attr("x", d.x = Math.max(radius, Math.min(width - radius, d3.event.x)))
                 .attr("y", d.y = Math.max(radius, Math.min(height - radius, d3.event.y)));
     }
 
     function newBlip(blip){
         var g = svg.append("g").call(drag);
+        g.attr("id", "blip-id-" + blip.id);
         g.append("circle")
                 .attr("r", radius)
                 .attr("cx", function(d) { return blip.x; })
@@ -78,9 +89,10 @@
             .text(blip.text);
     }
 
-
     function nyPrick(text){
-        var blip ={
+        var blipId = $("g[id*='blip-id-']"),
+        blip ={
+            id: blipId.length,
             text: text,
             x: width / 2,
             y: height /2
@@ -92,6 +104,17 @@
 
     socket.on('new blip', function(blip){
         newBlip(blip);
+    });
+
+    socket.on('move blip', function(blip){
+        var id = '#' + blip.id,
+            circle = $( id +' > circle'),
+            text = $(id + ' > text');
+
+        circle.attr("cx", blip.x);
+        circle.attr("cy", blip.y);
+        text.attr("x", blip.x);
+        text.attr("y", blip.y);
     });
 
     buildRadar();
