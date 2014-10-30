@@ -117,31 +117,22 @@ SimpleRadar.Client = (function () {
 		g.attr("id", "blip-id-" + blip.id);
 		g.append("circle")
 			.attr("r", radius)
-			.attr("cx", function (d) {
-				return blip.x;
-			})
-			.attr("cy", function (d) {
-				return blip.y;
-			})
+			.attr("cx", blip.x)
+			.attr("cy", blip.y)
 			.attr("fill", "#ccc")
 			.attr("stroke", "#ccc");
 
 		g.append("text")
-			.attr("x", function (d) {
-				return blip.x;
-			})
-			.attr("y", function (d) {
-				return blip.y;
-			})
+			.attr("x", blip.x)
+			.attr("y", blip.y)
 			.text(blip.text);
 	}
 
 	function addBlip() {
-		var text = $('#new-blip').val(),
-			blipId = $("g[id*='blip-id-']"),
+		var blipId = $("g[id*='blip-id-']"),
 			blip = {
 				id: blipId.length,
-				text: text,
+				text: $('#new-blip').val(),
 				x: width / 2,
 				y: height / 2
 			};
