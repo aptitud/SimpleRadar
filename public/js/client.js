@@ -1,28 +1,41 @@
 var SimpleRadar = SimpleRadar || {};
 
 SimpleRadar.Client = (function () {
-	var socket = io();
-	var width = 800,
-		height = 800,
+	var socket = io(),
+		drag = d3.behavior.drag().on("drag", dragmove),
+		svg = svg || {},
+		width = window.innerWidth,
+		height = window.innerHeight,
+		radius = 10,
+		arcRadius = 65,
+		arcLegends = ["Adopt", "Trial", "Assess", "Hold"];
+
+	function redraw() {
+		$('div').remove();
+
+		width = window.innerWidth - (window.innerWidth * 0.09);
+		height = window.innerHeight - (window.innerHeight * 0.09);
 		radius = 10;
+		arcRadius = 0.12 * Math.min(width, height);
 
-	var drag = d3.behavior.drag()
-		.on("drag", dragmove);
+		svg = d3.select("body").append("div").selectAll("svg")
+			.data(d3.range(1).map(function () {
+				return {
+					x: width / 2,
+					y: height / 2
+				};
+			}))
+			.enter().append("svg")
+			.attr("width", width)
+			.attr("height", height);
 
+		drawRadar();
+		drawCrossHair();
+		drawLegends();
+	}
 
-	var svg = d3.select("body").append("div").selectAll("svg")
-		.data(d3.range(1).map(function () {
-			return {
-				x: width / 2,
-				y: height / 2
-			};
-		}))
-		.enter().append("svg")
-		.attr("width", width)
-		.attr("height", height);
-
-	function buildRadar() {
-		for (var i = 100; i < 500; i += 100) {
+	function drawRadar() {
+		for (var i = arcRadius; i <= 4 * arcRadius; i += arcRadius) {
 			svg.append("circle")
 				.attr("r", i)
 				.attr("cx", width / 2)
@@ -32,7 +45,7 @@ SimpleRadar.Client = (function () {
 		}
 	}
 
-	function buildCrossHair() {
+	function drawCrossHair() {
 		svg.append("line")
 			.attr("x1", width / 2)
 			.attr("x2", width / 2)
@@ -45,6 +58,15 @@ SimpleRadar.Client = (function () {
 			.attr("y1", height / 2)
 			.attr("y2", height / 2)
 			.attr("stroke", "#ccc");
+	}
+
+	function drawLegends() {
+		for (var i = 0; i <= arcLegends.length; i += 1) {
+			svg.append("text")
+				.attr("x", width / 2 - ((i + 1) * arcRadius))
+				.attr("y", height / 2)
+				.text(arcLegends[i]);
+		}
 	}
 
 	function dragmove(d) {
@@ -121,10 +143,14 @@ SimpleRadar.Client = (function () {
 		text.attr("y", blip.y);
 	});
 
-	buildRadar();
-	buildCrossHair();
+	redraw();
 
 	return {
-		addBlip: addBlip
+		addBlip: addBlip,
+		redraw: redraw
 	};
 })();
+
+$(window).resize(function () {
+	SimpleRadar.Client.redraw();
+});
