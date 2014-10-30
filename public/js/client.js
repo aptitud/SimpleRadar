@@ -9,7 +9,8 @@ SimpleRadar.Client = (function () {
 		radius = 10,
 		arcRadius = 65,
 		arcColors = ["#F8F8F7", "#F3F3F1", "#E7E7E3", "#DBDBD5"],
-		arcLegends = ["Adopt", "Trial", "Assess", "Hold"];
+		arcLegends = ["Adopt", "Trial", "Assess", "Hold"],
+		quadrantLegends = ["Techniques", "Tools", "Platforms", "Languages & Frameworks"];
 
 	function redraw() {
 		$('div').remove();
@@ -32,7 +33,8 @@ SimpleRadar.Client = (function () {
 
 		drawRadar();
 		drawCrossHair();
-		drawLegends();
+		drawArcLegends();
+		drawQuadrantLegends();
 	}
 
 	function drawRadar() {
@@ -62,13 +64,32 @@ SimpleRadar.Client = (function () {
 			.attr("stroke", "#ccc");
 	}
 
-	function drawLegends() {
+	function drawArcLegends() {
 		for (var i = 0; i <= arcLegends.length; i += 1) {
 			svg.append("text")
 				.attr("x", width / 2 - ((i + 1) * arcRadius - 5))
 				.attr("y", height / 2)
 				.text(arcLegends[i]);
 		}
+	}
+
+	function drawQuadrantLegends() {
+		svg.append("text")
+			.attr("x", 0)
+			.attr("y", 20)
+			.text(quadrantLegends[0]);
+		svg.append("text")
+			.attr("x", width - 40)
+			.attr("y", 20)
+			.text(quadrantLegends[1]);
+		svg.append("text")
+			.attr("x", 0)
+			.attr("y", height - 20)
+			.text(quadrantLegends[2]);
+		svg.append("text")
+			.attr("x", width - 170)
+			.attr("y", height - 20)
+			.text(quadrantLegends[3]);
 	}
 
 	function dragmove(d) {
