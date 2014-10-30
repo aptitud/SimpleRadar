@@ -8,6 +8,7 @@ SimpleRadar.Client = (function () {
 		height = window.innerHeight,
 		radius = 10,
 		arcRadius = 65,
+		arcColors = ["#F8F8F7", "#F3F3F1", "#E7E7E3", "#DBDBD5"],
 		arcLegends = ["Adopt", "Trial", "Assess", "Hold"];
 
 	function redraw() {
@@ -35,12 +36,13 @@ SimpleRadar.Client = (function () {
 	}
 
 	function drawRadar() {
-		for (var i = arcRadius; i <= 4 * arcRadius; i += arcRadius) {
+		var arcIndex = 0;
+		for (var i = 4 * arcRadius; i >= arcRadius; i -= arcRadius) {
 			svg.append("circle")
 				.attr("r", i)
 				.attr("cx", width / 2)
 				.attr("cy", height / 2)
-				.attr("fill", "transparent")
+				.attr("fill", arcColors[arcIndex++])
 				.attr("stroke", "#ccc");
 		}
 	}
@@ -63,7 +65,7 @@ SimpleRadar.Client = (function () {
 	function drawLegends() {
 		for (var i = 0; i <= arcLegends.length; i += 1) {
 			svg.append("text")
-				.attr("x", width / 2 - ((i + 1) * arcRadius))
+				.attr("x", width / 2 - ((i + 1) * arcRadius - 5))
 				.attr("y", height / 2)
 				.text(arcLegends[i]);
 		}
