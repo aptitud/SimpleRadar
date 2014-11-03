@@ -1,16 +1,22 @@
 {
     "name": "SimpleRadar",
-    "version": "0.0.0",
-    "description": "simpel technology radar",
+    "version": "0.0.1",
+    "description": "Helps teams organize their technology skills",
     "main": "server.js",
     "author": "Aptitud",
     "dependencies": {
         "express": "*",
         "body-parser": "*",
         "bower": "*",
-        "socket.io": "*"
+        "socket.io": "*",
+        "mongoose": "*"
+    },
+    "devDependencies": {
+        "mocha": "*",
+        "should": "*"
     },
     "scripts": {
-        "start": "nodemon server.js prod"
+        "start": "nodemon server.js prod",
+        "test": "mocha -u bdd -b -R spec --recursive"
     }
 }
