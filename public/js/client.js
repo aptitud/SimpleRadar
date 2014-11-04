@@ -113,6 +113,10 @@ SimpleRadar.Client = (function () {
 	}
 
 	function newBlip(blip) {
+		if (!isThisRadar(blip)) {
+			return;
+		}
+
 		var g = svg.append("g").call(drag);
 		g.attr("id", "blip-id-" + blip.id);
 		g.append("circle")
@@ -128,9 +132,18 @@ SimpleRadar.Client = (function () {
 			.text(blip.text);
 	}
 
+	function getRadarId() {
+		return window.location.pathname.replace('/radars/', '');
+	}
+
+	function isThisRadar(blip) {
+		return getRadarId() === blip.radarId;
+	}
+
 	function addBlip() {
 		var blipId = $("g[id*='blip-id-']"),
 			blip = {
+				radarId: getRadarId(),
 				id: blipId.length,
 				text: $('#new-blip').val(),
 				x: width / 2,
@@ -147,6 +160,10 @@ SimpleRadar.Client = (function () {
 	});
 
 	socket.on('move blip', function (blip) {
+		if (!isThisRadar(blip)) {
+			return;
+		}
+
 		var id = '#' + blip.id,
 			circle = $(id + ' > circle'),
 			text = $(id + ' > text');
