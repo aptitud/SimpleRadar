@@ -1,7 +1,6 @@
 var express = require('express'),
   app = express(),
-  http = require('http').Server(app),
-  io = require('socket.io')(http),
+  io = require('socket.io'),
   db = require('./lib/db'),
   config = require('./lib/config')(),
   bodyParser = require('body-parser'),
@@ -13,7 +12,13 @@ app.use(express.static(__dirname + '/public'));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 app.set('port', config.appPort);
 
-io.on('connection', function (socket) {
+var server = app.listen(config.appPort, function () {
+  console.log("Node app is running at: " + config.appPort);
+});
+
+var ios = io.listen(server);
+
+ios.on('connection', function (socket) {
   console.log('a user connected');
   socket.on('disconnect', function () {
     console.log('user disconnected');
@@ -23,13 +28,10 @@ io.on('connection', function (socket) {
     console.log('new blip', blip);
     socket.broadcast.emit('new blip', blip);
   });
+
   socket.on('move blip', function (blip) {
     socket.broadcast.emit('move blip', blip);
   });
-});
-
-http.listen(config.appPort, function () {
-  console.log("Node app is running at: " + config.appPort);
 });
 
 var sendError = function (response, msg, code) {
@@ -44,8 +46,12 @@ var sendResult = function (response, result, code) {
     .end();
 };
 
-app.get('/', function (req, res) {
-  res.sendFile('index.html');
+app.get('/', function (request, response) {
+  response.sendFile('index.html');
+});
+
+app.get('/radars/:id', function (request, response) {
+  response.sendFile(__dirname + '/public/radar.html');
 });
 
 app.post('/radars', jsonParser, function (request, response) {

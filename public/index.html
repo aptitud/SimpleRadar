@@ -5,12 +5,26 @@
         <title>Welcome to Simple Radar</title>
     </head>
     <body>
+    <input type="text" id="new-radar"/>
+    <button onclick="newRadar();">New Simple Radar...</button>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script>
         function newRadar(){
-            //create new radar in Mongo here and redirect to...
+            var radar = {
+                name: $('new-radar').val()
+            };
+            console.log('creating radar', radar);
+            $.ajax({
+              type: "POST",
+              url: '/radars',
+              data: radar,
+              success: function(data, textStatus, jqXHR ){
+                console.log('success', data);
+                window.location.href = '/radars/' + data._id;
+              },
+              dataType: 'json'
+            });
         }
     </script>
-    <input type="text" id="new-blip"/>
-    <button onclick="newRadar">New Simple Radar...</button>
     </body>    
 </html>
