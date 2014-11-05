@@ -9,6 +9,7 @@
     <div id="success" style="display:none">
       <p id="success-text"></p>
       <a id="success-link" href="#" target="_blank"></a>
+      <a id="success-share" href="#"></a>
     </div>
     <div id="failure" style="display:none">
       <p>Failure</p>
@@ -24,8 +25,9 @@
                 $('#success-text').text('Whohaa your radar is ready for action here: ' + link);
                 $('#success-link').text("Take me there");
                 $('#success-link').attr('href', link);
+                $('#success-share').text("Share radar with others...");
+                $('#success-share').attr('href', 'mailto:?subject=Our technology radar&body=Lets collaborate around our very own technology radar ' + link);
                 $('#success').show();
-                //window.location.href = '/radars/' + data._id;
               },
               dataType: 'json'
             });
