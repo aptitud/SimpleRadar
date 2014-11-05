@@ -16,7 +16,7 @@ describe('Radars', function () {
   });
 
   it('A new Radar should be stored in with correct properties', function (done) {
-    db.addRadar('A test radar', function (err, newRadar) {
+    db.addRadar(function (err, newRadar) {
       should.not.exist(err);
       newRadar.should.have.property('_id');
       newRadar.should.have.property('name');
@@ -26,9 +26,11 @@ describe('Radars', function () {
   });
 
   it('Get an existing Radar', function (done) {
-    db.addRadar('A test radar', function (err, newRadar) {
-      db.getRadar(newRadar._id, function (err, getRadar) {
-        newRadar.name.should.equal(getRadar.name);
+    db.addRadar(function (err, newRadar) {
+      var id = newRadar._id;
+      db.getRadar(id, function (err, getRadar) {
+        should.not.exist(err);
+        getRadar._id.should.eql(id);
         done();
       });
     });

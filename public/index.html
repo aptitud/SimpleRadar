@@ -5,22 +5,27 @@
         <title>Welcome to Simple Radar</title>
     </head>
     <body>
-    <input type="text" id="new-radar"/>
     <button onclick="newRadar();">New Simple Radar...</button>
+    <div id="success" style="display:none">
+      <p id="success-text"></p>
+      <a id="success-link" href="#" target="_blank"></a>
+    </div>
+    <div id="failure" style="display:none">
+      <p>Failure</p>
+    </div>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script>
         function newRadar(){
-            var radar = {
-                name: $('new-radar').val()
-            };
-            console.log('creating radar', radar);
             $.ajax({
               type: "POST",
               url: '/radars',
-              data: radar,
               success: function(data, textStatus, jqXHR ){
-                console.log('success', data);
-                window.location.href = '/radars/' + data._id;
+                var link = window.location.href + 'radars/' + data._id;
+                $('#success-text').text('Whohaa your radar is ready for action here: ' + link);
+                $('#success-link').text("Take me there");
+                $('#success-link').attr('href', link);
+                $('#success').show();
+                //window.location.href = '/radars/' + data._id;
               },
               dataType: 'json'
             });
