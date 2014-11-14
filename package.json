@@ -18,6 +18,7 @@
     },
     "scripts": {
         "start": "nodemon server.js prod",
-        "test": "mocha -u bdd -b -R spec --recursive"
+        "test": "mocha -u bdd -b -R spec --recursive",
+        "postinstall": "bower install"
     }
 }
