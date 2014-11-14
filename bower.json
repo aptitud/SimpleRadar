@@ -1,10 +1,11 @@
 {
-    "name": "simpleRadar",
-    "version": "0.0.0",
-    "dependencies": {
-        "d3": "latest",
-        "jquery": "latest",
-        "json2": "latest",
-        "jquery-ui": "latest"
-    }
+  "name": "simpleRadar",
+  "version": "0.0.0",
+  "dependencies": {
+    "d3": "latest",
+    "jquery": "latest",
+    "json2": "latest",
+    "jquery-ui": "latest",
+    "bootstrap": "latest"
+  }
 }

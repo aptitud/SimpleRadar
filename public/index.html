@@ -1,37 +1,87 @@
 <!DOCTYPE html>
 <html>
-    <head lang="en">
-        <meta charset="UTF-8">
-        <title>Welcome to Simple Radar</title>
-    </head>
-    <body>
-    <button onclick="newRadar();">New Simple Radar...</button>
-    <div id="success" style="display:none">
-      <p id="success-text"></p>
-      <a id="success-link" href="#" target="_blank"></a>
-      <a id="success-share" href="#"></a>
-    </div>
-    <div id="failure" style="display:none">
-      <p>Failure</p>
+  <head lang="en">
+    <meta charset="UTF-8">
+    <title>Welcome to Simple Radar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+    html,
+    body{
+    background: #000;
+    background-image: url("img/radar.png");
+    background-size:cover;
+    background-position:center center;
+    height: 100%;
+    }
+    .well{
+    background: #eee
+    }
+    .row{
+    padding-top: 50px;
+    }
+    #goto-radar,
+    #share-radar,
+    .alert{
+    display: none;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3">
+        </div>
+        <div class="col-xs-10 col-sm-8 col-md-6 col-lg-6">
+          <div class="well well-lg">
+            <h2>Welcome to Simple Radar</h2>
+            <p>This is an interactive and cool new way to collaborate around a Technology Radar with distributed teammembers.</p>
+            <p>
+            <button id="new-radar" type="submit" class="btn btn-primary btn-lg" onclick="newRadar();"><span class="glyphicon glyphicon-plus-sign"></span> Create a new Radar</button>
+            </p>
+            <p id="goto-radar">
+              <a id="success-link" href="#" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-chevron-right"></span> Beam me there</a>
+            </p>
+            <p id="share-radar">
+              <a id="success-share" href="#" class="btn btn-info btn-lg"><span class="glyphicon glyphicon-share"></span> Share Radar with others</a>
+            </p>
+          </div>
+          <div class="alert alert-success" role="alert">
+            <strong>Well done!</strong> You successfully created a radar <a id="alert-link" href="#" class="alert-link">here</a>.
+          </div>
+          <div class="alert alert-info" role="alert">
+            <strong>Share your radar!</strong> You can share your radar with others <a id="alert-share" href="#" class="alert-link">here</a>.
+          </div>
+          <div class="alert alert-danger" role="alert">
+            <strong>Oh nooes!</strong> Something went wrong, please try again.
+          </div>
+        </div>
+        <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3">
+        </div>
+      </div>
     </div>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script>
-        function newRadar(){
-            $.ajax({
-              type: "POST",
-              url: '/radars',
-              success: function(data, textStatus, jqXHR ){
-                var link = window.location.href + 'radars/' + data._id;
-                $('#success-text').text('Whohaa your radar is ready for action here: ' + link);
-                $('#success-link').text("Take me there");
-                $('#success-link').attr('href', link);
-                $('#success-share').text("Share radar with others...");
-                $('#success-share').attr('href', 'mailto:?subject=Our technology radar&body=Lets collaborate around our very own technology radar ' + link);
-                $('#success').show();
-              },
-              dataType: 'json'
-            });
-        }
+    function newRadar(){
+    $.ajax({
+    type: "POST",
+    url: '/radars',
+    success: function(data, textStatus, jqXHR ){
+    var link = window.location.href + 'radars/' + data._id;
+    $('#success-link').attr('href', link);
+    $('#success-share').attr('href', 'mailto:?subject=Our technology radar&body=Lets collaborate around our very own technology radar ' + link);
+    $('#alert-link').attr('href', link);
+    $('#alert-share').attr('href', 'mailto:?subject=Our technology radar&body=Lets collaborate around our very own technology radar ' + link);
+    $('#new-radar').prop('disabled', true);
+    $('.alert-success').fadeIn(1000);
+    $('.alert-info').fadeIn(1000);
+    $('#goto-radar').fadeIn(1000);
+    $('#share-radar').fadeIn(1000);
+    },
+    dataType: 'json'
+    });
+    }
     </script>
-    </body>    
+  </body>
 </html>
