@@ -2,7 +2,11 @@ var SimpleRadar = SimpleRadar || {};
 
 SimpleRadar.Start = (function () {
 	function newRadar() {
+		var data = {
+			size: $('input:checked').attr('id')
+		};
 		$.ajax({
+			data: JSON.stringify(data),
 			type: "POST",
 			url: '/radars',
 			success: function (data, textStatus, jqXHR) {
@@ -23,7 +27,7 @@ SimpleRadar.Start = (function () {
 				console.log(textStatus);
 				console.log(errorThrown);
 			},
-			dataType: 'json'
+			contentType: "application/json; charset=utf-8"
 		});
 	}
 

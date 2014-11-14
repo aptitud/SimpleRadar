@@ -54,8 +54,8 @@ app.get('/radars/:id', function (request, response) {
   response.sendFile(__dirname + '/public/radar.html');
 });
 
-app.post('/radars', function (request, response) {
-  db.addRadar(function (err, result) {
+app.post('/radars', jsonParser, function (request, response) {
+  db.addRadar(request.body.size, function (err, result) {
     if (err) {
       sendError(response, err, 500);
     } else {
