@@ -4,8 +4,8 @@
     "description": "Helps teams organize their technology skills",
     "main": "server.js",
     "author": "Aptitud",
-    "engine": "node >= 0.10.25",
     "dependencies": {
+        "nodemon": "*",
         "express": "*",
         "body-parser": "*",
         "bower": "*",
