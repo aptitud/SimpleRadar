@@ -54,12 +54,22 @@ app.get('/radars/:id', function (request, response) {
   response.sendFile(__dirname + '/public/radar.html');
 });
 
-app.post('/radars', jsonParser, function (request, response) {
+app.post('/api/radars', jsonParser, function (request, response) {
   db.addRadar(request.body.size, function (err, result) {
     if (err) {
       sendError(response, err, 500);
     } else {
       sendResult(response, result, 201);
+    }
+  });
+});
+
+app.get('/api/radars/:id', jsonParser, function (request, response) {
+  db.getRadar(request.params.id, function (err, result) {
+    if (err) {
+      sendError(response, err, 500);
+    } else {
+      sendResult(response, result, 200);
     }
   });
 });

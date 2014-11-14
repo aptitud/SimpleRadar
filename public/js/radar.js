@@ -4,8 +4,8 @@ SimpleRadar.Client = (function () {
 	var socket = io(),
 		drag = d3.behavior.drag().on("drag", dragmove),
 		svg = svg || {},
-		width = window.innerWidth,
-		height = window.innerHeight,
+		width = 1024,
+		height = 768,
 		radius = 10,
 		arcRadius = 65,
 		arcColors = ["#F8F8F7", "#F3F3F1", "#E7E7E3", "#DBDBD5"],
@@ -13,28 +13,40 @@ SimpleRadar.Client = (function () {
 		quadrantLegends = ["Techniques", "Tools", "Platforms", "Languages & Frameworks"];
 
 	function redraw() {
-		$('div').remove();
+		$.ajax({
+			type: "Get",
+			url: '/api/radars/' + getRadarId(),
+			success: function (data, textStatus, jqXHR) {
+				$('div').remove();
 
-		width = window.innerWidth - (window.innerWidth * 0.09);
-		height = window.innerHeight - (window.innerHeight * 0.09);
-		radius = 10;
-		arcRadius = 0.12 * Math.min(width, height);
+				width = data.size.width - (data.size.width * 0.09);
+				height = data.size.height - (data.size.height * 0.09);
+				radius = 10;
+				arcRadius = 0.12 * Math.min(width, height);
 
-		svg = d3.select("body").append("div").selectAll("svg")
-			.data(d3.range(1).map(function () {
-				return {
-					x: width / 2,
-					y: height / 2
-				};
-			}))
-			.enter().append("svg")
-			.attr("width", width)
-			.attr("height", height);
+				svg = d3.select("body").append("div").selectAll("svg")
+					.data(d3.range(1).map(function () {
+						return {
+							x: width / 2,
+							y: height / 2
+						};
+					}))
+					.enter().append("svg")
+					.attr("width", width)
+					.attr("height", height);
 
-		drawRadar();
-		drawCrossHair();
-		drawArcLegends();
-		drawQuadrantLegends();
+				drawRadar();
+				drawCrossHair();
+				drawArcLegends();
+				drawQuadrantLegends();
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
+			contentType: "application/json; charset=utf-8"
+		});
 	}
 
 	function drawRadar() {
@@ -181,7 +193,3 @@ SimpleRadar.Client = (function () {
 		redraw: redraw
 	};
 })();
-
-$(window).resize(function () {
-	SimpleRadar.Client.redraw();
-});

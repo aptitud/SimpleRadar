@@ -8,7 +8,7 @@ SimpleRadar.Start = (function () {
 		$.ajax({
 			data: JSON.stringify(data),
 			type: "POST",
-			url: '/radars',
+			url: '/api/radars',
 			success: function (data, textStatus, jqXHR) {
 				var link = window.location.href + 'radars/' + data._id;
 				$('#success-link').attr('href', link);
