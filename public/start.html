@@ -5,27 +5,7 @@
     <title>Welcome to Simple Radar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style type="text/css">
-    html,
-    body{
-    background: #000;
-    background-image: url("img/radar.png");
-    background-size:cover;
-    background-position:center center;
-    height: 100%;
-    }
-    .well{
-    background: #eee
-    }
-    .row{
-    padding-top: 50px;
-    }
-    #goto-radar,
-    #share-radar,
-    .alert{
-    display: none;
-    }
-    </style>
+    <link href="css/start.css" rel="stylesheet">
   </head>
   <body>
     <div class="container">
@@ -37,7 +17,7 @@
             <h2>Welcome to Simple Radar</h2>
             <p>This is an interactive and cool new way to collaborate around a Technology Radar with distributed teammembers.</p>
             <p>
-            <button id="new-radar" type="submit" class="btn btn-primary btn-lg" onclick="newRadar();"><span class="glyphicon glyphicon-plus-sign"></span> Create a new Radar</button>
+            <button id="new-radar" type="submit" class="btn btn-primary btn-lg" onclick="SimpleRadar.Start.newRadar();"><span class="glyphicon glyphicon-plus-sign"></span> Create a new Radar</button>
             </p>
             <p id="goto-radar">
               <a id="success-link" href="#" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-chevron-right"></span> Beam me there</a>
@@ -62,26 +42,6 @@
     </div>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script>
-    function newRadar(){
-    $.ajax({
-    type: "POST",
-    url: '/radars',
-    success: function(data, textStatus, jqXHR ){
-    var link = window.location.href + 'radars/' + data._id;
-    $('#success-link').attr('href', link);
-    $('#success-share').attr('href', 'mailto:?subject=Our technology radar&body=Lets collaborate around our very own technology radar ' + link);
-    $('#alert-link').attr('href', link);
-    $('#alert-share').attr('href', 'mailto:?subject=Our technology radar&body=Lets collaborate around our very own technology radar ' + link);
-    $('#new-radar').prop('disabled', true);
-    $('.alert-success').fadeIn(1000);
-    $('.alert-info').fadeIn(1000);
-    $('#goto-radar').fadeIn(1000);
-    $('#share-radar').fadeIn(1000);
-    },
-    dataType: 'json'
-    });
-    }
-    </script>
+    <script src="js/start.js"></script>
   </body>
 </html>

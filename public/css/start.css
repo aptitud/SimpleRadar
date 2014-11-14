@@ -1,0 +1,22 @@
+html,
+body{
+    background: #000;
+    background-image: url("../img/radar.png");
+    background-size:cover;
+    background-position:center center;
+    height: 100%;
+}
+
+.well{
+    background: #eee
+}
+
+.row{
+    padding-top: 50px;
+}
+
+#goto-radar,
+#share-radar,
+.alert{
+    display: none;
+}

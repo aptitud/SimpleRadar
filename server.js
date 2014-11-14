@@ -47,7 +47,7 @@ var sendResult = function (response, result, code) {
 };
 
 app.get('/', function (request, response) {
-  response.sendFile('index.html');
+  response.sendFile(__dirname + '/public/start.html');
 });
 
 app.get('/radars/:id', function (request, response) {
