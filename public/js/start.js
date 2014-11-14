@@ -17,6 +17,12 @@ SimpleRadar.Start = (function () {
 				$('#goto-radar').fadeIn(1000);
 				$('#share-radar').fadeIn(1000);
 			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				$('.alert-danger').fadeIn(1000);
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
 			dataType: 'json'
 		});
 	}

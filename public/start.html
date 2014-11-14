@@ -16,14 +16,32 @@
           <div class="well well-lg">
             <h2>Welcome to Simple Radar</h2>
             <p>This is an interactive and cool new way to collaborate around a Technology Radar with distributed teammembers.</p>
+            <p/>
+            <h4>Choose a Radar Size</h4>
+            <p>
+            <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-info">
+                <input type="radio" name="options" id="option1" autocomplete="off"> Extra small
+              </label>
+              <label class="btn btn-info">
+                <input type="radio" name="options" id="option2" autocomplete="off"> Small
+              </label>
+              <label class="btn btn-info">
+                <input type="radio" name="options" id="option3" autocomplete="off"> Medium
+              </label>
+              <label class="btn btn-info active">
+                <input type="radio" name="options" id="option4" autocomplete="off" checked> Large
+              </label>
+            </div>
+            </p>
             <p>
             <button id="new-radar" type="submit" class="btn btn-primary btn-lg" onclick="SimpleRadar.Start.newRadar();"><span class="glyphicon glyphicon-plus-sign"></span> Create a new Radar</button>
             </p>
             <p id="goto-radar">
-              <a id="success-link" href="#" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-chevron-right"></span> Beam me there</a>
+            <a id="success-link" href="#" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-chevron-right"></span> Beam me there</a>
             </p>
             <p id="share-radar">
-              <a id="success-share" href="#" class="btn btn-info btn-lg"><span class="glyphicon glyphicon-share"></span> Share Radar with others</a>
+            <a id="success-share" href="#" class="btn btn-info btn-lg"><span class="glyphicon glyphicon-share"></span> Share Radar with others</a>
             </p>
           </div>
           <div class="alert alert-success" role="alert">
