@@ -56,8 +56,8 @@ describe('Radars', function () {
   it('An extra small Radar should have correct size', function (done) {
     db.addRadar("xsmall", function (err, newRadar) {
       should.not.exist(err);
-      newRadar.size.width.should.equal(320);
-      newRadar.size.height.should.equal(320 / (1024 / 768));
+      newRadar.size.width.should.equal(480);
+      newRadar.size.height.should.equal(480 / (1024 / 768));
       done();
     });
   });
@@ -68,6 +68,28 @@ describe('Radars', function () {
       db.getRadar(id, function (err, getRadar) {
         should.not.exist(err);
         getRadar._id.should.eql(id);
+        done();
+      });
+    });
+  });
+  it('Save a Radar', function (done) {
+    db.addRadar("large", function (err, newRadar) {
+      var id = newRadar._id,
+        blips = [];
+      blips.push({
+        id: 1,
+        text: "Node.js",
+        x: 100,
+        y: 100
+      });
+      db.saveRadar(id, blips, function (err, dbRadar) {
+        should.not.exist(err);
+        dbRadar._id.should.eql(id);
+        dbRadar.blips.length.should.equal(1);
+        dbRadar.blips[0].id.should.equal(1);
+        dbRadar.blips[0].text.should.equal("Node.js");
+        dbRadar.blips[0].x.should.equal(100);
+        dbRadar.blips[0].y.should.equal(100);
         done();
       });
     });
