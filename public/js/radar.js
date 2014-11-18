@@ -17,14 +17,14 @@ SimpleRadar.Client = (function () {
 			type: "Get",
 			url: '/api/radars/' + getRadarId(),
 			success: function (data, textStatus, jqXHR) {
-				$('div').remove();
+				$('#container').empty();
 
 				width = data.size.width - (data.size.width * 0.09);
 				height = data.size.height - (data.size.height * 0.09);
 				radius = 10;
 				arcRadius = 0.12 * Math.min(width, height);
 
-				svg = d3.select("body").append("div").selectAll("svg")
+				svg = d3.select("#container").append("div").selectAll("svg")
 					.data(d3.range(1).map(function () {
 						return {
 							x: width / 2,
@@ -186,10 +186,15 @@ SimpleRadar.Client = (function () {
 		text.attr("y", blip.y);
 	});
 
+	function saveRadar() {
+
+	}
+
 	redraw();
 
 	return {
 		addBlip: addBlip,
-		redraw: redraw
+		redraw: redraw,
+		saveRadar: saveRadar
 	};
 })();
