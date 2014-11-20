@@ -9,6 +9,7 @@ SimpleRadar.Client = (function () {
 		radius = 10,
 		arcRadius = 65,
 		arcColors = ["#F8F8F7", "#F3F3F1", "#E7E7E3", "#DBDBD5"],
+		lineColor = "#bbb",
 		arcLegends = ["Adopt", "Trial", "Assess", "Hold"],
 		quadrantLegends = ["Techniques", "Tools", "Platforms", "Languages & Frameworks"];
 
@@ -23,7 +24,7 @@ SimpleRadar.Client = (function () {
 				width = data.size.width - (data.size.width * 0.09);
 				height = data.size.height - (data.size.height * 0.09);
 				radius = 10;
-				arcRadius = 0.12 * Math.min(width, height);
+				arcRadius = 0.114 * Math.min(width, height);
 
 				svg = d3.select("#container").append("div").selectAll("svg")
 					.data(d3.range(1).map(function () {
@@ -79,7 +80,7 @@ SimpleRadar.Client = (function () {
 				.attr("cx", width / 2)
 				.attr("cy", height / 2)
 				.attr("fill", arcColors[arcIndex++])
-				.attr("stroke", "#ccc");
+				.attr("stroke", lineColor);
 		}
 	}
 
@@ -89,13 +90,13 @@ SimpleRadar.Client = (function () {
 			.attr("x2", width / 2)
 			.attr("y1", height)
 			.attr("y2", 0)
-			.attr("stroke", "#ccc");
+			.attr("stroke", lineColor);
 		svg.append("line")
 			.attr("x1", 0)
 			.attr("x2", width)
 			.attr("y1", height / 2)
 			.attr("y2", height / 2)
-			.attr("stroke", "#ccc");
+			.attr("stroke", lineColor);
 	}
 
 	function drawArcLegends() {
@@ -158,8 +159,8 @@ SimpleRadar.Client = (function () {
 			.attr("r", radius)
 			.attr("cx", blip.x)
 			.attr("cy", blip.y)
-			.attr("fill", "#ccc")
-			.attr("stroke", "#ccc");
+			.attr("fill", "#fff")
+			.attr("stroke", lineColor);
 
 		g.append("text")
 			.attr("x", blip.x)
