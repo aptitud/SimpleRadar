@@ -41,6 +41,12 @@ SimpleRadar.Client = (function () {
 				drawArcLegends();
 				drawQuadrantLegends();
 				drawBlips(data.blips);
+
+				$("#new-blip").keyup(function (event) {
+					if (event.keyCode == 13) {
+						$("#add-blip").click();
+					}
+				});
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				console.log(jqXHR);
@@ -170,11 +176,15 @@ SimpleRadar.Client = (function () {
 	}
 
 	function addBlip() {
+		var text = $('#new-blip').val();
+		if (text.length === 0)
+			return;
+
 		var blipId = $("g[id*='blip-id-']"),
 			blip = {
 				radarId: getRadarId(),
 				id: blipId.length,
-				text: $('#new-blip').val(),
+				text: text,
 				x: width / 2,
 				y: height / 2
 			};

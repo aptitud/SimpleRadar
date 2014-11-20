@@ -56,8 +56,8 @@ describe('Radars', function () {
   it('An extra small Radar should have correct size', function (done) {
     db.addRadar("xsmall", function (err, newRadar) {
       should.not.exist(err);
-      newRadar.size.width.should.equal(480);
-      newRadar.size.height.should.equal(480 / (1024 / 768));
+      newRadar.size.width.should.equal(580);
+      newRadar.size.height.should.equal(580 / (1024 / 768));
       done();
     });
   });
