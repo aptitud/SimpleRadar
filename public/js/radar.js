@@ -17,6 +17,7 @@ SimpleRadar.Client = (function () {
 			type: "Get",
 			url: '/api/radars/' + getRadarId(),
 			success: function (data, textStatus, jqXHR) {
+				console.log('data', data);
 				$('#container').empty();
 
 				width = data.size.width - (data.size.width * 0.09);
@@ -39,6 +40,7 @@ SimpleRadar.Client = (function () {
 				drawCrossHair();
 				drawArcLegends();
 				drawQuadrantLegends();
+				drawBlips(data.blips);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				console.log(jqXHR);
@@ -47,6 +49,20 @@ SimpleRadar.Client = (function () {
 			},
 			contentType: "application/json; charset=utf-8"
 		});
+	}
+
+	function drawBlips(blips) {
+		var snapShotCount = blips.length;
+		if (snapShotCount === 0) {
+			return;
+		}
+
+		var latestSnapShot = blips[snapShotCount - 1];
+		var blipCount = latestSnapShot.data.length;
+		for (var i = 0; i < blipCount; i++) {
+			var blip = latestSnapShot.data[i];
+			newBlip(blip);
+		}
 	}
 
 	function drawRadar() {
@@ -107,6 +123,7 @@ SimpleRadar.Client = (function () {
 	function dragmove(d) {
 		var g = d3.select(this),
 			blip = {
+				radarId: getRadarId(),
 				id: g.attr("id"),
 				x: Math.max(radius, Math.min(width - radius, d3.event.x)),
 				y: Math.max(radius, Math.min(height - radius, d3.event.y)),
@@ -175,7 +192,6 @@ SimpleRadar.Client = (function () {
 		if (!isThisRadar(blip)) {
 			return;
 		}
-
 		var id = '#' + blip.id,
 			circle = $(id + ' > circle'),
 			text = $(id + ' > text');
@@ -187,7 +203,39 @@ SimpleRadar.Client = (function () {
 	});
 
 	function saveRadar() {
+		var blips = $("g[id*='blip-id-']"),
+			data = {
+				blips: []
+			};
 
+		for (var i = 0; i < blips.length; i++) {
+			var id = '#blip-id-' + i,
+				circle = $(id + ' > circle'),
+				text = $(id + ' > text');
+			var blip = {
+				radarId: getRadarId(),
+				id: i,
+				text: text.text(),
+				x: circle.attr('cx'),
+				y: circle.attr('cy')
+			};
+			data.blips.push(blip);
+		}
+
+		$.ajax({
+			data: JSON.stringify(data),
+			type: "PUT",
+			url: '/api/radars/' + getRadarId(),
+			success: function (data, textStatus, jqXHR) {
+				console.log('success');
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
+			contentType: "application/json; charset=utf-8"
+		});
 	}
 
 	redraw();

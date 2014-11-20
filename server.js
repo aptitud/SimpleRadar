@@ -64,6 +64,16 @@ app.post('/api/radars', jsonParser, function (request, response) {
   });
 });
 
+app.put('/api/radars/:id', jsonParser, function (request, response) {
+  db.saveRadar(request.params.id, request.body.blips, function (err, result) {
+    if (err) {
+      sendError(response, err, 500);
+    } else {
+      sendResult(response, result, 200);
+    }
+  });
+});
+
 app.get('/api/radars/:id', jsonParser, function (request, response) {
   db.getRadar(request.params.id, function (err, result) {
     if (err) {

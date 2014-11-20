@@ -77,6 +77,7 @@ describe('Radars', function () {
       var id = newRadar._id,
         blips = [];
       blips.push({
+        radarId: id,
         id: 1,
         text: "Node.js",
         x: 100,
@@ -86,10 +87,12 @@ describe('Radars', function () {
         should.not.exist(err);
         dbRadar._id.should.eql(id);
         dbRadar.blips.length.should.equal(1);
-        dbRadar.blips[0].id.should.equal(1);
-        dbRadar.blips[0].text.should.equal("Node.js");
-        dbRadar.blips[0].x.should.equal(100);
-        dbRadar.blips[0].y.should.equal(100);
+        dbRadar.blips[0].data.length.should.equal(1);
+        dbRadar.blips[0].data[0].radarId.toString().should.equal(id.toString());
+        dbRadar.blips[0].data[0].id.should.equal(1);
+        dbRadar.blips[0].data[0].text.should.equal("Node.js");
+        dbRadar.blips[0].data[0].x.should.equal(100);
+        dbRadar.blips[0].data[0].y.should.equal(100);
         done();
       });
     });
