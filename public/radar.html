@@ -34,19 +34,32 @@
                     <a class="navbar-brand" href="https://github.com/aptitud/SimpleRadar">Simple Radar</a>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">                
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <div class="navbar-form navbar-left">
                         <div class="form-group">
                             <input type="text" id="new-blip" class="form-control" placeholder="Node.js, C#, Agile, BDD">
                         </div>
                         <button type="submit" id="add-blip" onclick="SimpleRadar.Client.addBlip();" class="btn btn-info" autocomplete="off"><span class="glyphicon glyphicon-plus-sign"></span> Add Blip</button>
-                        <button type="submit" data-loading-text="Saving..." onclick="SimpleRadar.Client.saveRadar();" class="btn btn-primary" autocomplete="off"><span class="glyphicon glyphicon-save"></span> Save</button>
+                        &nbsp;
+                        <label>
+                            Modes:
+                        </label>
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-default active">
+                                <span class="glyphicon glyphicon-plus-sign blip-mode"></span><input type="radio" name="options" id="create" autocomplete="off" checked onchange="SimpleRadar.Client.changeMode();"> Create
+                            </label>
+                            <label class="btn btn-default">
+                                <span class="glyphicon glyphicon-trash blip-mode"></span><input type="radio" name="options" id="delete" autocomplete="off" onchange="SimpleRadar.Client.changeMode();"> Delete
+                            </label>
+                        </div>
+                        &nbsp;
+                        <button type="submit" id="save-radar" data-loading-text="Saving..." onclick="SimpleRadar.Client.saveRadar();" class="btn btn-primary" autocomplete="off"><span class="glyphicon glyphicon-save"></span> Save</button>
                     </div>
-                </div><!-- /.navbar-collapse -->
-            </div><!-- /.container-fluid -->
-        </nav>
-                <div id="container">                    
-                </div>            
+                    </div><!-- /.navbar-collapse -->
+                    </div><!-- /.container-fluid -->
+                </nav>
+                <div id="container">
+                </div>
                 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
                 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
                 <script src="../bower_components/d3/d3.js"></script>

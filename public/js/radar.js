@@ -11,7 +11,10 @@ SimpleRadar.Client = (function () {
 		arcColors = ["#F8F8F7", "#F3F3F1", "#E7E7E3", "#DBDBD5"],
 		lineColor = "#bbb",
 		arcLegends = ["Adopt", "Trial", "Assess", "Hold"],
-		quadrantLegends = ["Techniques", "Tools", "Platforms", "Languages & Frameworks"];
+		quadrantLegends = ["Techniques", "Tools", "Platforms", "Languages & Frameworks"],
+		mode = 'create',
+		blipIdString = 'blip-id-',
+		allBlipIdsString = "g[id*='" + blipIdString + "']";
 
 	function redraw() {
 		$.ajax({
@@ -135,6 +138,7 @@ SimpleRadar.Client = (function () {
 				x: Math.max(radius, Math.min(width - radius, d3.event.x)),
 				y: Math.max(radius, Math.min(height - radius, d3.event.y)),
 			};
+
 		socket.emit('move blip', blip);
 		moveBlip(this);
 	}
@@ -153,8 +157,8 @@ SimpleRadar.Client = (function () {
 			return;
 		}
 
-		var g = svg.append("g").call(drag);
-		g.attr("id", "blip-id-" + blip.id);
+		var g = svg.append("g").call(drag).on("click", blipClick);
+		g.attr("id", blipIdString + blip.id);
 		g.append("circle")
 			.attr("r", radius)
 			.attr("cx", blip.x)
@@ -168,6 +172,26 @@ SimpleRadar.Client = (function () {
 			.text(blip.text);
 	}
 
+	function blipClick(g) {
+		if (mode === "delete") {
+			var blip = {
+				radarId: getRadarId(),
+				id: $(this).attr('id'),
+			};
+
+			socket.emit('delete blip', blip);
+			deleteBlip(blip);
+		}
+	}
+
+	function deleteBlip(blip) {
+		if (!isThisRadar(blip)) {
+			return;
+		}
+
+		$('#' + blip.id).remove();
+	}
+
 	function getRadarId() {
 		return window.location.pathname.replace('/radars/', '');
 	}
@@ -176,19 +200,28 @@ SimpleRadar.Client = (function () {
 		return getRadarId() === blip.radarId;
 	}
 
+	function getMaxBlipId() {
+		var blipCount = $(allBlipIdsString).length;
+		if (blipCount === 0)
+			return 0;
+
+		var maxBlipId = $(allBlipIdsString)[blipCount - 1].id.replace(blipIdString, '');
+
+		return parseInt(maxBlipId) + 1;
+	}
+
 	function addBlip() {
 		var text = $('#new-blip').val();
 		if (text.length === 0)
 			return;
 
-		var blipId = $("g[id*='blip-id-']"),
-			blip = {
-				radarId: getRadarId(),
-				id: blipId.length,
-				text: text,
-				x: width / 2,
-				y: height / 2
-			};
+		var blip = {
+			radarId: getRadarId(),
+			id: getMaxBlipId(),
+			text: text,
+			x: width / 2,
+			y: height / 2
+		};
 
 		socket.emit('new blip', blip);
 		newBlip(blip);
@@ -213,14 +246,18 @@ SimpleRadar.Client = (function () {
 		text.attr("y", blip.y);
 	});
 
+	socket.on('delete blip', function (blip) {
+		deleteBlip(blip);
+	});
+
 	function saveRadar() {
-		var blips = $("g[id*='blip-id-']"),
+		var blips = $(allBlipIdsString),
 			data = {
 				blips: []
 			};
 
 		for (var i = 0; i < blips.length; i++) {
-			var id = '#blip-id-' + i,
+			var id = '#' + blipIdString + i,
 				circle = $(id + ' > circle'),
 				text = $(id + ' > text');
 			var blip = {
@@ -249,11 +286,25 @@ SimpleRadar.Client = (function () {
 		});
 	}
 
+	function changeMode() {
+		mode = $('input:checked').attr('id');
+		if (mode === 'create') {
+			$('#add-blip').removeClass('disabled');
+			$('#new-blip').prop('disabled', false);
+		}
+
+		if (mode === 'delete') {
+			$('#add-blip').addClass('disabled');
+			$('#new-blip').prop('disabled', true);
+		}
+	}
+
 	redraw();
 
 	return {
 		addBlip: addBlip,
 		redraw: redraw,
-		saveRadar: saveRadar
+		saveRadar: saveRadar,
+		changeMode: changeMode
 	};
 })();

@@ -32,6 +32,11 @@ ios.on('connection', function (socket) {
   socket.on('move blip', function (blip) {
     socket.broadcast.emit('move blip', blip);
   });
+
+  socket.on('delete blip', function (blip) {
+    console.log('delete blip', blip);
+    socket.broadcast.emit('delete blip', blip);
+  });
 });
 
 var sendError = function (response, msg, code) {
