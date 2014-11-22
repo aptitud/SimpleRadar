@@ -299,6 +299,7 @@ SimpleRadar.Client = (function () {
 		}
 	}
 
+	$('[data-toggle="tooltip"]').tooltip();
 	redraw();
 
 	return {
